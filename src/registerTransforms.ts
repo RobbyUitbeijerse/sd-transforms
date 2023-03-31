@@ -10,6 +10,7 @@ import { transformTypographyForCompose } from './compose/transformTypography.js'
 import { checkAndEvaluateMath } from './checkAndEvaluateMath.js';
 import { mapDescriptionToComment } from './mapDescriptionToComment.js';
 import { transformColorModifiers } from './color-modifiers/transformColorModifiers.js';
+import { transformOpacity } from './transformOpacity.js';
 
 const isBrowser = typeof window === 'object';
 
@@ -38,6 +39,13 @@ export async function registerTransforms(sd: Core) {
         token.type,
       ),
     transformer: token => transformDimension(token.value),
+  });
+
+  _sd.registerTransform({
+    name: 'ts/opacity',
+    type: 'value',
+    matcher: token => token.type === 'opacity',
+    transformer: token => transformOpacity(token.value),
   });
 
   _sd.registerTransform({
